@@ -1,0 +1,298 @@
+body {
+ font-family: 'Arial', sans-serif;
+ margin: 0;
+ padding: 0;
+ background-color: #f4f4f4;
+ color: #333;
+}
+
+.container {
+ max-width: 960px;
+ margin: 0 auto;
+ padding: 30px;
+}
+
+.resume {
+ background-color: #fff;
+ padding: 30px;
+ border-radius: 10px;
+ box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile {
+ display: flex;
+ align-items: center;
+ margin-bottom: 30px;
+}
+
+.profile img {
+ width: 150px;
+ height: 150px;
+ border-radius: 30%;
+ margin-right: 30px;
+}
+
+.profile .info {
+ flex: 1;
+}
+
+.profile .info p {
+ margin-bottom: 5px;
+}
+
+.profile .info h2 {
+ font-size: 24px;
+ font-weight: bold;
+ margin-bottom: 5px;
+}
+
+.profile .info h3 {
+ font-size: 18px;
+ margin-bottom: 10px;
+}
+
+.section {
+ margin-bottom: 30px;
+}
+
+.section h2 {
+ font-size: 20px;
+ font-weight: bold;
+ margin-bottom: 15px;
+}
+
+.experience, .education, .skills, .interests {
+ display: flex;
+ flex-wrap: wrap;
+}
+
+.experience .item, .education .item, .skills .group, .interests ul {
+ width: 100%;
+ margin-bottom: 15px;
+}
+
+.experience .item, .education .item {
+ padding: 20px;
+ border: 1px solid #ddd;
+ border-radius: 5px;
+ flex: 1 0 48%;
+ margin-right: 20px;
+}
+
+.experience .item:last-child, .education .item:last-child {
+ margin-right: 0;
+}
+
+.experience .item h3, .education .item h3 {
+ font-size: 18px;
+ font-weight: bold;
+ margin-bottom: 10px;
+}
+
+.experience .item p, .education .item p {
+ margin-bottom: 5px;
+}
+
+.experience .item p:last-child {
+ margin-bottom: 0;
+}
+
+.skills .group {
+ flex: 1 0 30%;
+ margin-right: 20px;
+}
+
+.skills .group:last-child {
+ margin-right: 0;
+}
+
+.skills .group h3 {
+ font-size: 16px;
+ font-weight: bold;
+ margin-bottom: 10px;
+}
+
+.skills .group ul {
+ display: flex;
+ flex-wrap: wrap;
+ list-style: none;
+ padding: 0;
+}
+
+.skills .group ul li {
+ width: 25%;
+ padding: 10px;
+ text-align: center;
+ margin-bottom: 10px;
+}
+
+/* Стили для иконок навыков */
+.skills .group ul li img {
+  width: 40px; /* Устанавливаем ширину иконки */
+  height: 40px; /* Устанавливаем высоту иконки */
+}
+
+.interests ul {
+ display: flex;
+ flex-wrap: wrap;
+ list-style: none;
+ padding: 0;
+}
+
+.interests ul li {
+ margin: 5px;
+ padding: 5px 10px;
+ border: 1px solid #ddd;
+ border-radius: 5px;
+ font-size: 14px;
+}
+
+.most-recent {
+ position: absolute;
+ background-color: #4CAF50;
+ color: #fff;
+ padding: 5px 10px;
+ border-radius: 5px;
+ font-size: 12px;
+}
+
+.bullet {
+ margin-left: 10px;
+}
+
+.call-to-action {
+ text-align: center;
+ margin-top: 30px;
+}
+
+.call-to-action p {
+ font-size: 18px;
+ font-weight: bold;
+}
+
+/* Общие стили для анимации */
+[contenteditable="true"] {
+  transition: all 0.3s ease;
+}
+
+/* Анимация при фокусе */
+[contenteditable="true"]:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  transform: scale(1.05);
+}
+
+/* Анимация для текста */
+[contenteditable="true"] p,
+[contenteditable="true"] h2,
+[contenteditable="true"] h3 {
+  transition: color 0.3s ease;
+}
+
+[contenteditable="true"]:focus p,
+[contenteditable="true"]:focus h2,
+[contenteditable="true"]:focus h3 {
+  color: #007BFF;
+}
+
+/* Анимация для иконок навыков */
+.skills img {
+  transition: transform 0.3s ease;
+}
+
+.skills img:hover {
+  transform: scale(1.2);
+}
+
+/* Анимация для элементов списка */
+ul li {
+  transition: background-color 0.3s ease;
+}
+
+ul li:hover {
+  background-color: #f0f0f0;
+}
+
+/* Медиа-запросы для адаптивного дизайна */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .profile {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile img {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  .experience .item, .education .item {
+    flex: 1 0 100%;
+    margin-right: 0;
+  }
+
+  .skills .group {
+    flex: 1 0 100%;
+    margin-right: 0;
+  }
+
+  .skills .group ul li {
+    width: 20%;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 5px;
+  }
+
+  .profile img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile .info h2 {
+    font-size: 20px;
+  }
+
+  .profile .info h3 {
+    font-size: 16px;
+  }
+
+  .section h2 {
+    font-size: 18px;
+  }
+
+  .experience .item h3, .education .item h3 {
+    font-size: 16px;
+  }
+
+  .skills .group h3 {
+    font-size: 14px;
+  }
+
+  .skills .group ul li {
+    width: 25%;
+  }
+
+  .interests ul li {
+    font-size: 12px;
+  }
+}
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
