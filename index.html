@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Резюме</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 30px;
+    }
+
+    .resume {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .profile img {
+      width: 150px;
+      height: 150px;
+      border-radius: 30%;
+      margin-right: 30px;
+    }
+
+    .profile .info {
+      flex: 1;
+    }
+
+    .profile .info p {
+      margin-bottom: 5px;
+    }
+
+    .profile .info h2 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .profile .info h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section h2 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .experience, .education, .skills, .interests {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .experience .item, .education .item, .skills .group, .interests ul {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    .experience .item, .education .item {
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      flex: 1 0 48%;
+      margin-right: 20px;
+    }
+
+    .experience .item:last-child, .education .item:last-child {
+      margin-right: 0;
+    }
+
+    .experience .item h3, .education .item h3 {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .experience .item p, .education .item p {
+      margin-bottom: 5px;
+    }
+
+    .experience .item p:last-child {
+      margin-bottom: 0;
+    }
+
+    .skills .group {
+      flex: 1 0 30%;
+      margin-right: 20px;
+    }
+
+    .skills .group:last-child {
+      margin-right: 0;
+    }
+
+    .skills .group h3 {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .skills .group ul {
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+      padding: 0;
+    }
+
+    .skills .group ul li {
+      width: 25%;
+      padding: 10px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    /* Стили для иконок навыков */
+    .skills .group ul li img {
+      width: 40px; /* Устанавливаем ширину иконки */
+      height: 40px; /* Устанавливаем высоту иконки */
+    }
+
+    .interests ul {
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+      padding: 0;
+    }
+
+    .interests ul li {
+      margin: 5px;
+      padding: 5px 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .most-recent {
+      position: absolute;
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+    }
+
+    .bullet {
+      margin-left: 10px;
+    }
+
+    .call-to-action {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .call-to-action p {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    /* Общие стили для анимации */
+    [contenteditable="true"] {
+      transition: all 0.3s ease;
+    }
+
+    /* Анимация при фокусе */
+    [contenteditable="true"]:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+      transform: scale(1.05);
+    }
+
+    /* Анимация для текста */
+    [contenteditable="true"] p,
+    [contenteditable="true"] h2,
+    [contenteditable="true"] h3 {
+      transition: color 0.3s ease;
+    }
+
+    [contenteditable="true"]:focus p,
+    [contenteditable="true"]:focus h2,
+    [contenteditable="true"]:focus h3 {
+      color: #007BFF;
+    }
+
+    /* Анимация для иконок навыков */
+    .skills img {
+      transition: transform 0.3s ease;
+    }
+
+    .skills img:hover {
+      transform: scale(1.2);
+    }
+
+    /* Анимация для элементов списка */
+    ul li {
+      transition: background-color 0.3s ease;
+    }
+
+    ul li:hover {
+      background-color: #f0f0f0;
+    }
+
+    /* Медиа-запросы для адаптивного дизайна */
+    @media (max-width: 768px) {
+      .container {
+        padding: 10px;
+      }
+
+      .profile {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .profile img {
+        margin-right: 0;
+        margin-bottom: 20px;
+      }
+
+      .experience .item, .education .item {
+        flex: 1 0 100%;
+        margin-right: 0;
+      }
+
+      .skills .group {
+        flex: 1 0 100%;
+        margin-right: 0;
+      }
+
+      .skills .group ul li {
+        width: 20%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 5px;
+      }
+
+      .profile img {
+        width: 100px;
+        height: 100px;
+      }
+
+      .profile .info h2 {
+        font-size: 20px;
+      }
+
+      .profile .info h3 {
+        font-size: 16px;
+      }
+
+      .section h2 {
+        font-size: 18px;
+      }
+
+      .experience .item h3, .education .item h3 {
+        font-size: 16px;
+      }
+
+      .skills .group h3 {
+        font-size: 14px;
+      }
+
+      .skills .group ul li {
+        width: 25%;
+      }
+
+      .interests ul li {
+        font-size: 12px;
+      }
+    }
+
+    /* Ripple effect */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.7);
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+    }
+
+    @keyframes ripple {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="resume">
+      <div class="profile" ripple>
+        <img src="https://media.informpskov.ru/content/2017/10/iB0cR1507543147.JPG" alt="Фото">
+        <div class="info">
+          <p contenteditable="true">Приветсвую, я</p>
+          <h2 contenteditable="true">Занин О.А</h2>
+          <h3 contenteditable="true"> Designer</h3>
+        </div>
+      </div>
+      <div class="section" id="experience">
+        <h2>Опыт</h2>
+        <div class="experience">
+          <div class="item" ripple>
+            <h3 contenteditable="true">Графический дизайнер</h3>
+            <p contenteditable="true">Сентябрь 2023 - настоящее время</p>
+            <p contenteditable="true">Дизайн | Полная занятость</p>
+            <p contenteditable="true">
+              <span class="bullet">-</span> Разработка дизайна и макетов для компании -
+              <span class="bullet">-</span> Дизайн продуктов и проектов - 
+            </p>
+            <span class="most-recent">most recent</span>
+          </div>
+          <div class="item" ripple>
+            <h3 contenteditable="true">Разработчик</h3>
+            <p contenteditable="true">2017 - настоящее время</p>
+            <p contenteditable="true">Фриланс</p>
+            <p contenteditable="true">
+              <span class="bullet">-</span> Создание и верстка сайтов
+              <span class="bullet">-</span> Веб-приложения и гибридные приложения
+            </p>
+          </div>
+          <div class="item" ripple>
+            <h3 contenteditable="true">Юридический помощник</h3>
+            <p contenteditable="true">Сентябрь 2021 - Июнь 2021</p>
+            <p contenteditable="true">Юр. фирма | Стажер</p>
+            <p contenteditable="true">
+              <span class="bullet">-</span> Предоставлять административную поддержку юристу и повышать эффективность работы офиса
+              <span class="bullet">-</span> Подготавливать краткие обзоры дел и резюмировать показания, вопросы и показания под присягой
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="section" id="education">
+        <h2>Образование</h2>
+        <div class="education">
+          <div class="item" ripple>
+            <h3 contenteditable="true">UI/UX</h3>
+            <p contenteditable="true">2023</p>
+            <p contenteditable="true">СибГУТИ</p>
+            <p contenteditable="true">#UX #UI #DesignSystem #UXWriting #Figma #UI</p>
+          </div>
+          <div class="item" ripple>
+            <h3 contenteditable="true">Юридическое</h3>
+            <p contenteditable="true">2017 - 2022</p>
+            <p contenteditable="true">Университет Кегала</p>
+            <p contenteditable="true">#law #legalstudies #contracts #internationallaw</p>
+          </div>
+          <div class="item" ripple>
+            <h3 contenteditable="true">Граф. дизайнер</h3>
+            <p contenteditable="true">2017</p>
+            <p contenteditable="true">Университет Соцглава</p>
+            <p contenteditable="true">#branding #web #illustration #adobe</p>
+          </div>
+        </div>
+      </div>
+      <div class="section" id="languages">
+        <h2>Языки</h2>
+        <ul>
+          <li contenteditable="true" ripple>Русский</li>
+          <li contenteditable="true" ripple>Английский</li>
+          <li contenteditable="true" ripple>Китайский</li>
+        </ul>
+      </div>
+      <div class="section" id="skills">
+        <h2>Навыки</h2>
+        <div class="skills">
+          <div class="group" ripple>
+            <h3 contenteditable="true">Дизайн</h3>
+            <ul>
+              <li><img src="https://avatars.mds.yandex.net/get-mpic/1081556/img_id7421989937907068641.jpeg/orig" alt="Skill Icon"></li>
+              <li><img src="https://commsoft.ru/wp-content/uploads/2021/03/premierepro.png" alt="Skill Icon"></li>
+              <li><img src="https://avatars.mds.yandex.net/i?id=49a9b3e953d7bb477608fe82cbba6fcbc1863c26-5232763-images-thumbs&n=13" alt="Skill Icon"></li>
+              <li><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Adobe_Illustrator_CC_icon.svg/1024px-Adobe_Illustrator_CC_icon.svg.png" alt="Skill Icon"></li>
+              <li><img src="https://avatars.mds.yandex.net/i?id=f5fa27107b78eb4c0ad696bc27b13b34_l-12202401-images-thumbs&n=13" alt="Skill Icon"></li>
+            </ul>
+          </div>
+          <div class="group" ripple>
+            <h3 contenteditable="true">По коду</h3>
+            <ul>
+              <li><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/PyCharm_Icon.svg/1200px-PyCharm_Icon.svg.png" alt="Skill Icon"></li>
+              <li><img src="https://avatars.mds.yandex.net/i?id=41141d616be28d1db5563edc4b6de2673f2a148e-5272099-images-thumbs&n=13" alt="Skill Icon"></li>
+            </ul>
+          </div>
+          <div class="group" ripple>
+            <h3 contenteditable="true">Искусственный интеллект</h3>
+            <ul>
+              <li><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/1024px-ChatGPT_logo.svg.png" alt="Skill Icon"></li>
+              <li><img src="https://avatars.mds.yandex.net/i?id=a810954af9b953ba15777378083e56a8a33c91f1-12441665-images-thumbs&n=13" alt="Skill Icon"></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="section" id="interests">
+        <h2>Интересы</h2>
+        <div class="interests">
+          <ul>
+            <li contenteditable="true" ripple>Брендинг</li>
+            <li contenteditable="true" ripple>Дизайн</li>
+            <li contenteditable="true" ripple>Фото</li>
+            <li contenteditable="true" ripple>Искусственный интеллект</li>
+            <li contenteditable="true" ripple>Иллюстрации</li>
+            <li contenteditable="true" ripple>Типография</li>
+            <li contenteditable="true" ripple>Социальные сети</li>
+            <li contenteditable="true" ripple>Ресерч</li>
+            <li contenteditable="true" ripple>Пилотирование</li>
+            <li contenteditable="true" ripple>Игры</li>
+          </ul>
+        </div>
+      </div>
+      <div class="call-to-action">
+        <p contenteditable="true" ripple>Давайте пообщаемся! Я готов работать над интересными проектами.</p>
+        <button id="download-btn" ripple>Скачать PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const rippleElements = document.querySelectorAll('[ripple]');
+
+      rippleElements.forEach(element => {
+        element.addEventListener('click', (event) => {
+          const rect = element.getBoundingClientRect();
+          const ripple = document.createElement('span');
+          const diameter = Math.max(rect.width, rect.height);
+          const radius = diameter / 2;
+
+          ripple.style.width = ripple.style.height = `${diameter}px`;
+          ripple.style.left = `${event.clientX - rect.left - radius}px`;
+          ripple.style.top = `${event.clientY - rect.top - radius}px`;
+          ripple.classList.add('ripple');
+
+          element.appendChild(ripple);
+
+          setTimeout(() => {
+            ripple.remove();
+          }, 600);
+        });
+      });
+
+      const editableElements = document.querySelectorAll('[contenteditable="true"]');
+      editableElements.forEach(element => {
+        const savedValue = localStorage.getItem(element.tagName + element.id);
+        if (savedValue) {
+          element.textContent = savedValue;
+        }
+      });
+
+      document.addEventListener('input', (event) => {
+        if (event.target.getAttribute('contenteditable') === 'true') {
+          localStorage.setItem(event.target.tagName + event.target.id, event.target.textContent);
+        }
+      });
+
+      document.getElementById('download-btn').addEventListener('click', () => {
+        const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+        const imgWidth = 210; // Ширина страницы A4 в мм
+        const imgHeight = 297; // Высота страницы A4 в мм
+
+        const sections = ['profile', 'experience', 'education', 'languages', 'skills', 'interests'];
+
+        let yOffset = 0;
+
+        sections.forEach((sectionId, index) => {
+          const element = document.getElementById(sectionId);
+
+          html2canvas(element).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+            if (yOffset + imgHeight > 297) {
+              pdf.addPage();
+              yOffset = 0;
+            }
+
+            pdf.addImage(imgData, 'PNG', 0, yOffset, imgWidth, imgHeight);
+            yOffset += imgHeight;
+
+            if (index === sections.length - 1) {
+              pdf.save('resume.pdf');
+            }
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
